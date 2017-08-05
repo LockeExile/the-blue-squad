@@ -1,0 +1,17 @@
+{
+  "name": "the-blue-squad",
+  "description": "A website for scouting Splatoon teams, players, and events.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LockeExile/the-blue-squad.git"
+  },
+  "keywords": [
+    "website",
+    "splatoon"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LockeExile/the-blue-squad/issues"
+  },
+  "homepage": "https://github.com/LockeExile/the-blue-squad#readme"
+}
