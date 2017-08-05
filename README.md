@@ -13,3 +13,7 @@ This is not intended to be an all-encompassing hub for the competitive community
   * may incorporate some aggregated stats in the future
 * Links to and/or embedded streams and videos of matches and events
 * Opportunities for players and teams to contact each other
+
+## Stack
+* [Material Design Lite](https://getmdl.io/index.html)
+* [Firebase](https://firebase.google.com/)
