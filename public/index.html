@@ -32,7 +32,9 @@
             <i class="material-icons">more_vert</i>
           </button>
           <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="user-menu">
-            <li id="sign-in" class="mdl-menu__item">Sign in with Twitter</li>
+            <li id="sign-in-twitter" class="mdl-menu__item">Sign in with Twitter</li>
+            <li id="sign-in-discord" class="mdl-menu__item">Sign in with Discord</li>
+            <li id="sign-out" class="mdl-menu__item" style="display: none;">Sign out</li>
           </ul>
         </div>
       </header>
@@ -49,14 +51,24 @@
     </div>
 
     <script>
-      function toggleSignIn() {
+      function signInTwitter() {
         document.getElementById('user-menu').disabled = true;
         if (!firebase.auth().currentUser) {
           let provider = new firebase.auth.TwitterAuthProvider();
           firebase.auth().signInWithRedirect(provider);
-        } else {
-          firebase.auth().signOut();
         }
+      }
+
+      function signInDiscord() {
+        document.getElementById('user-menu').disabled = true;
+        if (!firebase.auth().currentUser) {
+          window.open('popup.html', 'name', 'height=585,width=400');
+        }
+      }
+
+      function signOut() {
+        document.getElementById('user-menu').disabled = true;
+        firebase.auth().signOut();
       }
 
       function initApp() {
@@ -71,18 +83,24 @@
             document.getElementById('user-icon').src = user.photoURL;
             document.getElementById('user-icon').style.display = "inline-block";
             document.getElementById('user-name').textContent = user.displayName;
-            document.getElementById('sign-in').textContent = 'Sign out';
+            document.getElementById('sign-in-twitter').style.display = "none";
+            document.getElementById('sign-in-discord').style.display = "none";
+            document.getElementById('sign-out').style.display = "block";
           } else { // User is signed out.
             document.getElementById('user-icon').style.display = "none";
             document.getElementById('user-icon').src = "";
             document.getElementById('user-name').textContent = 'Guest';
-            document.getElementById('sign-in').textContent = 'Sign in with Twitter';
+            document.getElementById('sign-in-twitter').style.display = "block";
+            document.getElementById('sign-in-discord').style.display = "block";
+            document.getElementById('sign-out').style.display = "none";
           }
 
           document.getElementById('user-menu').disabled = false;
         });
 
-        document.getElementById('sign-in').addEventListener('click', toggleSignIn, false);
+        document.getElementById('sign-in-twitter').addEventListener('click', signInTwitter, false);
+        document.getElementById('sign-in-discord').addEventListener('click', signInDiscord, false);
+        document.getElementById('sign-out').addEventListener('click', signOut, false);
       }
 
       document.addEventListener('DOMContentLoaded', initApp);

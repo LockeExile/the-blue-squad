@@ -1,9 +1,15 @@
 {
-  "name": "functions",
-  "description": "Cloud Functions for Firebase",
+  "name": "the-blue-squad-functions",
+  "description": "Firebase Cloud Functions for The Blue Squad",
   "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "crypto": "0.0.3",
     "firebase-admin": "~4.2.1",
-    "firebase-functions": "^0.5.7"
+    "firebase-functions": "^0.5.7",
+    "request": "^2.74.0",
+    "request-promise-native": "^1.0.3",
+    "simple-oauth2": "^1.0.0",
+    "superagent": "^3.5.2"
   },
   "private": true
 }
