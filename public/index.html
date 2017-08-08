@@ -10,14 +10,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 
-    <link rel="stylesheet" href="main.css">
-
     <!-- Firebase SDK -->
     <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
     <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
-    <!--script defer src="/__/firebase/4.2.0/firebase-database.js"></script-->
-    <!--script defer src="/__/firebase/4.2.0/firebase-storage.js"></script-->
     <script defer src="/__/firebase/init.js"></script>
+
+    <!-- The Blue Squad app -->
+    <link rel="stylesheet" href="main.css">
+    <script defer src="./auth.js"></script>
   </head>
 
   <body>
@@ -49,61 +49,5 @@
         </div>
       </main>
     </div>
-
-    <script>
-      function signInTwitter() {
-        document.getElementById('user-menu').disabled = true;
-        if (!firebase.auth().currentUser) {
-          let provider = new firebase.auth.TwitterAuthProvider();
-          firebase.auth().signInWithRedirect(provider);
-        }
-      }
-
-      function signInDiscord() {
-        document.getElementById('user-menu').disabled = true;
-        if (!firebase.auth().currentUser) {
-          window.open('popup.html', 'name', 'height=585,width=400');
-        }
-      }
-
-      function signOut() {
-        document.getElementById('user-menu').disabled = true;
-        firebase.auth().signOut();
-      }
-
-      function initApp() {
-        firebase.auth().getRedirectResult().then(function(result) {
-          // let token = result.credential.accessToken;
-          // let secret = result.credential.secret;
-          // let user = result.user;
-        });
-
-        firebase.auth().onAuthStateChanged(function(user) {
-          if (user) { // User is signed in.
-            document.getElementById('user-icon').src = user.photoURL;
-            document.getElementById('user-icon').style.display = "inline-block";
-            document.getElementById('user-name').textContent = user.displayName;
-            document.getElementById('sign-in-twitter').style.display = "none";
-            document.getElementById('sign-in-discord').style.display = "none";
-            document.getElementById('sign-out').style.display = "block";
-          } else { // User is signed out.
-            document.getElementById('user-icon').style.display = "none";
-            document.getElementById('user-icon').src = "";
-            document.getElementById('user-name').textContent = 'Guest';
-            document.getElementById('sign-in-twitter').style.display = "block";
-            document.getElementById('sign-in-discord').style.display = "block";
-            document.getElementById('sign-out').style.display = "none";
-          }
-
-          document.getElementById('user-menu').disabled = false;
-        });
-
-        document.getElementById('sign-in-twitter').addEventListener('click', signInTwitter, false);
-        document.getElementById('sign-in-discord').addEventListener('click', signInDiscord, false);
-        document.getElementById('sign-out').addEventListener('click', signOut, false);
-      }
-
-      document.addEventListener('DOMContentLoaded', initApp);
-    </script>
   </body>
 </html>
