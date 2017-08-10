@@ -1,4 +1,4 @@
-let auth;
+let auth, db;
 let linkDiscord = false;
 
 function signInTwitter() {
@@ -30,14 +30,13 @@ function signOut() {
 
 function initAuth() {
   auth = firebase.auth();
+  db = firebase.database();
   auth.getRedirectResult().then(function(result) {
-    // let token = result.credential.accessToken;
-    // let secret = result.credential.secret;
-    // let user = result.user;
+    // const user = result.user;
+    // console.log('twitter user', user);
   }, function(error) {
-    console.log(error);
-    const provider = new firebase.auth.TwitterAuthProvider();
     if (error.code === 'auth/credential-already-in-use') {
+      const provider = new firebase.auth.TwitterAuthProvider();
       const prevUser = auth.currentUser;
       auth.signInWithPopup(provider).then(function(result) {
         console.log('here', result);

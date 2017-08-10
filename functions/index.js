@@ -95,11 +95,7 @@ exports.token = functions.https.onRequest((req, res) => {
             console.log('Discord identity received:', discordUser);
 
             // Create a Firebase account and get the Custom Auth Token.
-            createFirebaseAccount(
-              discordUser.id,
-              discordUser.username,
-              `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.jpg`,
-              results.access_token)
+            createFirebaseAccount(discordUser, results.access_token)
               .then(firebaseToken => {
                 // Serve an HTML page that signs the user in and updates the user profile.
                 res.jsonp({token: firebaseToken});
@@ -119,32 +115,39 @@ exports.token = functions.https.onRequest((req, res) => {
  *
  * @returns {Promise<string>} The Firebase custom auth token in a promise.
  */
-function createFirebaseAccount(discordID, displayName, photoURL, accessToken) {
+function createFirebaseAccount(discordUser, accessToken) {
   // The UID we'll assign to the user.
-  const uid = `discord:${discordID}`;
+  const uid = `discord:${discordUser.id}`;
+  const avatarUrl = `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.jpg`;
 
   // Save the access token tot he Firebase Realtime Database.
-  const databaseTask = admin.database().ref(`/discordAccessToken/${uid}`)
+  const tokenTask = admin.database().ref(`/discordAccessToken/${uid}`)
       .set(accessToken);
 
-  // Create or update the user account.
-  const userCreationTask = admin.auth().updateUser(uid, {
-    displayName: displayName,
-    photoURL: photoURL
-  }).catch(error => {
-    // If user does not exist we create it.
-    if (error.code === 'auth/user-not-found') {
-      return admin.auth().createUser({
-        uid: uid,
-        displayName: displayName,
-        photoURL: photoURL
+  // Save the discord user data
+  const userDataTask = admin.database().ref(`/players/${uid}/discord`)
+      .set(discordUser);
+
+  // Try creating the user
+  const userCreationTask = admin.auth().createUser({
+    uid: uid,
+    displayName: discordUser.username,
+    photoURL: avatarUrl
+  }).then(
+    result => admin.database().ref(`/players/${uid}/avatarSource`).set('discord'),
+    error => { // catch already-exists error
+      if (error.code !== 'auth/uid-already-exists') { throw error; }
+
+      // update avatar if set to discord
+      return admin.database().ref(`/players/${uid}`).once('value').then(snapshot => {
+        if (snapshot.val().avatarSource === 'discord') {
+          return admin.auth().updateUser(uid, { photoURL: avatarUrl });
+        }
       });
-    }
-    throw error;
   });
 
   // Wait for all async task to complete then generate and return a custom auth token.
-  return Promise.all([userCreationTask, databaseTask]).then(() => {
+  return Promise.all([tokenTask, userDataTask, userCreationTask]).then(() => {
     // Create a Firebase custom auth token.
     const token = admin.auth().createCustomToken(uid);
     console.log('Created Custom token for UID "', uid, '" Token:', token);
