@@ -1,6 +1,12 @@
 {
   "rules": {
-    ".read": "auth != null",
-    ".write": "auth != null"
+    ".read": false,
+    ".write": false,
+    "players": {
+      ".read": true,
+      "$uid": {
+        ".write": "$uid === auth.uid || data.child('merging').exists()"
+      }
+    }
   }
 }

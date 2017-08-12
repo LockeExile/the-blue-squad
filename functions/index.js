@@ -134,13 +134,20 @@ function createFirebaseAccount(discordUser, accessToken) {
     displayName: discordUser.username,
     photoURL: avatarUrl
   }).then(
-    result => admin.database().ref(`/players/${uid}/avatarSource`).set('discord'),
+    result => {
+      admin.database().ref(`/players/${uid}`).update({
+        name: discordUser.username,
+        avatarSource: 'discord',
+        avatar: avatarUrl
+      });
+    },
     error => { // catch already-exists error
       if (error.code !== 'auth/uid-already-exists') { throw error; }
 
       // update avatar if set to discord
       return admin.database().ref(`/players/${uid}`).once('value').then(snapshot => {
         if (snapshot.val().avatarSource === 'discord') {
+          admin.database().ref(`/players/${uid}/avatar`).set(avatarUrl);
           return admin.auth().updateUser(uid, { photoURL: avatarUrl });
         }
       });
