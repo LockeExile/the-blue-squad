@@ -10,6 +10,9 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
 
+    <!-- Vue.js -->
+    <script defer src="https://unpkg.com/vue"></script>
+
     <!-- Firebase SDK -->
     <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
     <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
@@ -18,27 +21,12 @@
 
     <!-- The Blue Squad app -->
     <link rel="stylesheet" href="main.css">
-    <script defer src="./auth.js"></script>
+    <script defer src="./app.js"></script>
   </head>
 
   <body>
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header mdl-layout__header--waterfall">
-        <div class="mdl-layout__header-row">
-          <span class="mdl-layout-title">The Blue Squad</span>
-          <div class="mdl-layout-spacer"></div>
-          <img id="user-icon" style="display: none;" />
-          <span id="user-name">Guest</span>
-          <button disabled id="user-menu" class="mdl-button mdl-js-button mdl-button--icon">
-            <i class="material-icons">more_vert</i>
-          </button>
-          <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="user-menu">
-            <li id="sign-in-twitter" class="mdl-menu__item">Sign in with Twitter</li>
-            <li id="sign-in-discord" class="mdl-menu__item">Sign in with Discord</li>
-            <li id="sign-out" class="mdl-menu__item" style="display: none;">Sign out</li>
-          </ul>
-        </div>
-      </header>
+    <div id="app" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <tbs-header></tbs-header>
 
       <main class="mdl-layout__content">
         <div class="page-content">
