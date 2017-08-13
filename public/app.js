@@ -113,7 +113,9 @@ Vue.component('tbs-header', {
               displayName: result.user.displayName,
               photoURL: result.user.photoURL
             });
-          } // else keep discord data
+          } else { // keep discord data
+            discordRef.update({ merging: null });
+          }
           twitterRef.remove();
         });
 
