@@ -131,5 +131,12 @@ Vue.component('tbs-header', {
 });
 
 new Vue({
-  el: '#app'
+  el: '#app',
+  firebase: function () {
+    const db = firebase.database();
+    return {
+      // TODO sorting and paging
+      players: db.ref('/players')
+    }
+  }
 });

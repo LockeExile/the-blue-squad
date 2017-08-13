@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>The Blue Squad - Players</title>
+    
+    <!-- Material Design Theming -->
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+    <!-- Vue.js -->
+    <script defer src="https://unpkg.com/vue"></script>
+
+    <!-- Firebase SDK -->
+    <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
+    <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
+    <script defer src="/__/firebase/4.2.0/firebase-database.js"></script>
+    <script defer src="/__/firebase/init.js"></script>
+
+    <script defer src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
+
+    <!-- The Blue Squad app -->
+    <link rel="stylesheet" href="main.css">
+    <script defer src="./players.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+
+  <body>
+    <div id="app" class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <tbs-header></tbs-header>
+
+      <main class="mdl-layout__content">
+        <tbs-player-card v-for="(player, index) in players" v-if="index < 3" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
+        <div class="tbs-card mdl-card mdl-shadow--2dp">ad after third player</div>
+        <tbs-player-card v-for="(player, index) in players" v-if="index >= 3 && index < 10" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
+        <div class="tbs-card mdl-card mdl-shadow--2dp">ad after tenth player</div>
+        <tbs-player-card v-for="(player, index) in players" v-if="index >= 10" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
+      </main>
+    </div>
+  </body>
+</html>

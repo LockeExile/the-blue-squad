@@ -16,4 +16,5 @@ This is not intended to be an all-encompassing hub for the competitive community
 
 ## Stack
 * [Material Design Lite](https://getmdl.io/index.html)
+* [Vue](https://vuejs.org/)
 * [Firebase](https://firebase.google.com/)
