@@ -32,11 +32,29 @@
       <tbs-header></tbs-header>
 
       <main class="mdl-layout__content">
-        <tbs-player-card v-for="(player, index) in players" v-if="index < 3" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
-        <div class="tbs-card mdl-card mdl-shadow--2dp">ad after third player</div>
-        <tbs-player-card v-for="(player, index) in players" v-if="index >= 3 && index < 10" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
-        <div class="tbs-card mdl-card mdl-shadow--2dp">ad after tenth player</div>
-        <tbs-player-card v-for="(player, index) in players" v-if="index >= 10" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
+        <div class="tbs-pagination">
+          <button class="mdl-button mdl-js-button mdl-button--icon" :disabled="page === 1" @click="page--">
+            <i class="material-icons">chevron_left</i>
+          </button>
+          <button class="mdl-button mdl-js-button mdl-button--icon" :disabled="pageStart + pageSize >= playersFilter.length" @click="page++">
+            <i class="material-icons">chevron_right</i>
+          </button>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label">
+            <label class="mdl-button mdl-js-button mdl-button--icon" for="filter">
+              <i class="material-icons">search</i>
+            </label>
+            <div class="mdl-textfield__expandable-holder">
+              <input id="filter" class="mdl-textfield__input" type="text" name="filter" v-model="filterString" @keyup="page = 1" />
+            </div>
+          </div>
+        </div>
+        <div style="clear: both;"></div>
+
+        <tbs-player-card v-for="(player, index) in playersFilter" v-if="index >= pageStart && index < pageStart + 3" :key="player['.key']" :player="player" :index="index"></tbs-player-card><!--
+        --><div class="tbs-card mdl-card mdl-shadow--2dp">ad after third player</div><!--
+        --><tbs-player-card v-for="(player, index) in playersFilter" v-if="index >= pageStart + 3 && index < pageStart + 10" :key="player['.key']" :player="player" :index="index"></tbs-player-card><!--
+        --><div class="tbs-card mdl-card mdl-shadow--2dp">ad after tenth player</div><!--
+        --><tbs-player-card v-for="(player, index) in playersFilter" v-if="index >= pageStart + 10 && index < pageStart + pageSize" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
       </main>
     </div>
   </body>

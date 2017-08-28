@@ -130,13 +130,35 @@ Vue.component('tbs-header', {
   }
 });
 
-new Vue({
+const app = new Vue({
   el: '#app',
   firebase: function () {
     const db = firebase.database();
     return {
-      // TODO sorting and paging
+      // TODO sort by date joined desc
       players: db.ref('/players')
+    }
+  },
+  data: {
+    filterString: '',
+    page: 1,
+    pageSize: 18
+  },
+  computed: {
+    playersFilter: function () {
+      return this.filter(this.players, this.filterString, ['name']);
+    },
+    pageStart: function () {
+      return (this.page - 1) * this.pageSize;
+    }
+  },
+  methods: {
+    filter: function (list, value, props) {
+      return list.filter(function (item) {
+        return props.filter(function (prop) {
+          return item[prop] && item[prop].toLowerCase().indexOf(value.toLowerCase()) !== -1;
+        }).length > 0;
+      });
     }
   }
 });
