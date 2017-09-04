@@ -7,6 +7,9 @@
       "$uid": {
         ".write": "$uid === auth.uid || data.child('merging').exists()"
       }
+    },
+    "players_detail": {
+      ".read": true
     }
   }
 }

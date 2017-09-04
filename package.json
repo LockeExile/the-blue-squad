@@ -13,5 +13,8 @@
   "bugs": {
     "url": "https://github.com/LockeExile/the-blue-squad/issues"
   },
-  "homepage": "https://github.com/LockeExile/the-blue-squad#readme"
+  "homepage": "https://github.com/LockeExile/the-blue-squad#readme",
+  "dependencies": {
+    "hchs-vue-charts": "^1.2.8"
+  }
 }

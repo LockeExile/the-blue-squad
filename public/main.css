@@ -13,6 +13,10 @@ body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvet
 /* Fix for menu overflow in waterfall header */
 .mdl-layout__header--waterfall { overflow: visible; }
 
+/* Fix for card subtitle position */
+.mdl-card__title { flex-direction: column; }
+.mdl-card__title-text, .mdl-card__subtitle-text { align-self: flex-start; }
+
 #user-icon {
     border-radius: 50%;
     margin: 0 10px;
@@ -44,11 +48,25 @@ body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvet
 }
 .tbs-card .tbs-avatar {
     border-radius: 50%;
-    margin-right: 10px;
-    width: 48px;
-    height: 48px;
+    float: left;
+    margin-top: 8px;
+    margin-left: 8px;
+    width: 68px;
+    height: 68px;
+}
+.tbs-card .tbs-ranks {
+    float: left;
+    padding: 16px;
+    border-spacing: 6px;
+}
+.tbs-card .tbs-roles {
+    float: right;
+    padding-right: 16px;
 }
 .tbs-card .mdl-card__actions {
     position: absolute;
     bottom: 0px;
+}
+.tbs-card .mdl-card__actions .mdl-button {
+    min-width: 36px;
 }
