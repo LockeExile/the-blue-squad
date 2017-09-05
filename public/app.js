@@ -3,6 +3,11 @@ Vue.component('tbs-header', {
       <div class="mdl-layout__header-row">
         <span class="mdl-layout-title">The Blue Squad</span>
         <div class="mdl-layout-spacer"></div>
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="events.html">Events</a>
+          <a class="mdl-navigation__link" href="teams.html">Teams</a>
+          <a class="mdl-navigation__link" href="players.html">Players</a>
+        </nav>
         <img id="user-icon" v-if="user" :src="user.photoURL" />
         <span id="user-name">{{ user ? user.displayName : 'Guest' }}</span>
         <button id="user-menu" class="mdl-button mdl-js-button mdl-button--icon" :disabled="working">
@@ -128,6 +133,17 @@ Vue.component('tbs-header', {
       });
     }
   }
+});
+
+Vue.component('tbs-drawer', {
+  template: `<div class="mdl-layout__drawer ">
+      <span class="mdl-layout-title">The Blue Squad</span>
+      <nav class="mdl-navigation">
+        <a class="mdl-navigation__link" href="events.html">Events</a>
+        <a class="mdl-navigation__link" href="teams.html">Teams</a>
+        <a class="mdl-navigation__link" href="players.html">Players</a>
+      </nav>
+    </div>`
 });
 
 const app = new Vue({

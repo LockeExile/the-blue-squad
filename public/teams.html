@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>The Blue Squad</title>
+    <title>The Blue Squad - Teams</title>
     
     <!-- Material Design Theming -->
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.orange-indigo.min.css">
@@ -13,11 +13,12 @@
     <!-- Vue.js -->
     <script defer src="https://unpkg.com/vue"></script>
 
-    <!-- Firebase SDK -->
+    <!-- Firebase -->
     <script defer src="/__/firebase/4.2.0/firebase-app.js"></script>
     <script defer src="/__/firebase/4.2.0/firebase-auth.js"></script>
     <script defer src="/__/firebase/4.2.0/firebase-database.js"></script>
     <script defer src="/__/firebase/init.js"></script>
+    <script defer src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
 
     <!-- The Blue Squad app -->
     <link rel="stylesheet" href="main.css">
@@ -30,14 +31,14 @@
       <tbs-drawer></tbs-drawer>
 
       <main class="mdl-layout__content">
-        <div class="page-content">
-          <div id="message">
-            <h2>Welcome</h2>
-            <h1>The Blue Squad currently in training</h1>
-            <p>We're still working on setting up the site, so please check back later!</p>
+          <div class="page-content">
+            <div id="message">
+              <h2>Welcome</h2>
+              <h1>The Blue Squad currently in training</h1>
+              <p>We're still working on setting up the site, so please check back later!</p>
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
     </div>
   </body>
 </html>
