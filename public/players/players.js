@@ -6,7 +6,7 @@ Vue.component('tbs-player-card', {
   template: `<div class="tbs-card mdl-card mdl-shadow--2dp">
       <img class="tbs-avatar" :src="player.avatar" />
       <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">{{ player.name }}</h2>
+        <h2 class="mdl-card__title-text"><a :href="'/player/#' + player['.key']">{{ player.name }}</a></h2>
         <span class="mdl-card__subtitle-text" v-if="player.team">{{ player.team }}</span>
       </div>
       <div v-if="tab === 'summary'">

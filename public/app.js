@@ -1,15 +1,15 @@
 Vue.component('tbs-header', {
   template: `<header class="mdl-layout__header mdl-layout__header--waterfall">
       <div class="mdl-layout__header-row">
-        <span class="mdl-layout-title">The Blue Squad</span>
+        <a class="mdl-layout-title" href="/">The Blue Squad</a>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="events.html">Events</a>
-          <a class="mdl-navigation__link" href="teams.html">Teams</a>
-          <a class="mdl-navigation__link" href="players.html">Players</a>
+          <a class="mdl-navigation__link" href="/events/">Events</a>
+          <a class="mdl-navigation__link" href="/teams/">Teams</a>
+          <a class="mdl-navigation__link" href="/players/">Players</a>
         </nav>
         <img id="user-icon" v-if="user" :src="user.photoURL" />
-        <span id="user-name">{{ user ? user.displayName : 'Guest' }}</span>
+        <span id="user-name" :style="{ paddingLeft: user ? '0px' : '24px' }">{{ user ? user.displayName : 'Guest' }}</span>
         <button id="user-menu" class="mdl-button mdl-js-button mdl-button--icon" :disabled="working">
           <i class="material-icons">more_vert</i>
         </button>
@@ -137,11 +137,11 @@ Vue.component('tbs-header', {
 
 Vue.component('tbs-drawer', {
   template: `<div class="mdl-layout__drawer ">
-      <span class="mdl-layout-title">The Blue Squad</span>
+      <a class="mdl-layout-title" href="/">The Blue Squad</a>
       <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="events.html">Events</a>
-        <a class="mdl-navigation__link" href="teams.html">Teams</a>
-        <a class="mdl-navigation__link" href="players.html">Players</a>
+        <a class="mdl-navigation__link" href="/events/">Events</a>
+        <a class="mdl-navigation__link" href="/teams/">Teams</a>
+        <a class="mdl-navigation__link" href="/players/">Players</a>
       </nav>
     </div>`
 });
@@ -150,9 +150,11 @@ const app = new Vue({
   el: '#app',
   firebase: function () {
     const db = firebase.database();
+    const id = window.location.hash.substring(1);
     return {
       // TODO sort by date joined desc
-      players: db.ref('/players')
+      players: db.ref('/players'),
+      player: db.ref(`/players_detail/${id}`)
     }
   },
   data: {
