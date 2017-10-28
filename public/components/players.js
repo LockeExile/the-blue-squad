@@ -1,3 +1,64 @@
+const Players = {
+  template: `<main class="mdl-layout__content">
+      <div class="tbs-pagination">
+        <button class="mdl-button mdl-js-button mdl-button--icon" :disabled="page === 1" @click="page--">
+          <i class="material-icons">chevron_left</i>
+        </button>
+        <button class="mdl-button mdl-js-button mdl-button--icon" :disabled="pageStart + pageSize >= playersFilter.length" @click="page++">
+          <i class="material-icons">chevron_right</i>
+        </button>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label">
+          <label class="mdl-button mdl-js-button mdl-button--icon" for="filter">
+            <i class="material-icons">search</i>
+          </label>
+          <div class="mdl-textfield__expandable-holder">
+            <input id="filter" class="mdl-textfield__input" type="text" name="filter" v-model="filterString" @keyup="page = 1" />
+          </div>
+        </div>
+      </div>
+      <div style="clear: both;"></div>
+
+      <tbs-player-card v-for="(player, index) in playersFilter" v-if="index >= pageStart && index < pageStart + 3" :key="player['.key']" :player="player" :index="index"></tbs-player-card><!--
+      --><div class="tbs-card mdl-card mdl-shadow--2dp">ad after third player</div><!--
+      --><tbs-player-card v-for="(player, index) in playersFilter" v-if="index >= pageStart + 3 && index < pageStart + 10" :key="player['.key']" :player="player" :index="index"></tbs-player-card><!--
+      --><div class="tbs-card mdl-card mdl-shadow--2dp">ad after tenth player</div><!--
+      --><tbs-player-card v-for="(player, index) in playersFilter" v-if="index >= pageStart + 10 && index < pageStart + pageSize" :key="player['.key']" :player="player" :index="index"></tbs-player-card>
+    </main>`,
+  firebase: function () {
+    const db = firebase.database();
+    const id = window.location.hash.substring(1);
+    return {
+      // TODO sort by date joined desc
+      players: db.ref('/players'),
+      player: db.ref(`/players_detail/${id}`)
+    }
+  },
+  data: function() {
+    return {
+      filterString: '',
+      page: 1,
+      pageSize: 18
+    };
+  },
+  computed: {
+    playersFilter: function () {
+      return this.filter(this.players, this.filterString, ['name']);
+    },
+    pageStart: function () {
+      return (this.page - 1) * this.pageSize;
+    }
+  },
+  methods: {
+    filter: function (list, value, props) {
+      return list.filter(function (item) {
+        return props.filter(function (prop) {
+          return item[prop] && item[prop].toLowerCase().indexOf(value.toLowerCase()) !== -1;
+        }).length > 0;
+      });
+    }
+  }
+};
+
 Chart.defaults.global.legend.display = false;
 
 Vue.use(VueCharts);
@@ -6,7 +67,7 @@ Vue.component('tbs-player-card', {
   template: `<div class="tbs-card mdl-card mdl-shadow--2dp">
       <img class="tbs-avatar" :src="player.avatar" />
       <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text"><a :href="'/player/#' + player['.key']">{{ player.name }}</a></h2>
+        <h2 class="mdl-card__title-text"><router-link :to="{ name: 'player', params: { id: player['.key'] }}">{{ player.name }}</router-link></h2>
         <span class="mdl-card__subtitle-text" v-if="player.team">{{ player.team }}</span>
       </div>
       <div v-if="tab === 'summary'">

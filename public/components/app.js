@@ -1,12 +1,24 @@
+const Home = {
+  template: `<main class="mdl-layout__content">
+      <div class="page-content">
+        <div id="message">
+          <h2>Welcome</h2>
+          <h1>The Blue Squad currently in training</h1>
+          <p>We're still working on setting up the site, so please check back later!</p>
+        </div>
+      </div>
+    </main>`
+};
+
 Vue.component('tbs-header', {
   template: `<header class="mdl-layout__header mdl-layout__header--waterfall">
       <div class="mdl-layout__header-row">
-        <a class="mdl-layout-title" href="/">The Blue Squad</a>
+        <router-link class="mdl-layout-title" to="/">The Blue Squad</router-link>
         <div class="mdl-layout-spacer"></div>
         <nav class="mdl-navigation">
-          <a class="mdl-navigation__link" href="/events/">Events</a>
-          <a class="mdl-navigation__link" href="/teams/">Teams</a>
-          <a class="mdl-navigation__link" href="/players/">Players</a>
+          <router-link class="mdl-navigation__link" to="/events">Events</router-link>
+          <router-link class="mdl-navigation__link" to="/teams">Teams</router-link>
+          <router-link class="mdl-navigation__link" to="/players">Players</router-link>
         </nav>
         <img id="user-icon" v-if="user" :src="user.photoURL" />
         <span id="user-name" :style="{ paddingLeft: user ? '0px' : '24px' }">{{ user ? user.displayName : 'Guest' }}</span>
@@ -137,46 +149,25 @@ Vue.component('tbs-header', {
 
 Vue.component('tbs-drawer', {
   template: `<div class="mdl-layout__drawer ">
-      <a class="mdl-layout-title" href="/">The Blue Squad</a>
+      <router-link class="mdl-layout-title" to="/">The Blue Squad</router-link>
       <nav class="mdl-navigation">
-        <a class="mdl-navigation__link" href="/events/">Events</a>
-        <a class="mdl-navigation__link" href="/teams/">Teams</a>
-        <a class="mdl-navigation__link" href="/players/">Players</a>
+        <router-link class="mdl-navigation__link" to="/events">Events</router-link>
+        <router-link class="mdl-navigation__link" to="/teams">Teams</router-link>
+        <router-link class="mdl-navigation__link" to="/players">Players</router-link>
       </nav>
     </div>`
 });
 
 const app = new Vue({
   el: '#app',
-  firebase: function () {
-    const db = firebase.database();
-    const id = window.location.hash.substring(1);
-    return {
-      // TODO sort by date joined desc
-      players: db.ref('/players'),
-      player: db.ref(`/players_detail/${id}`)
-    }
-  },
-  data: {
-    filterString: '',
-    page: 1,
-    pageSize: 18
-  },
-  computed: {
-    playersFilter: function () {
-      return this.filter(this.players, this.filterString, ['name']);
-    },
-    pageStart: function () {
-      return (this.page - 1) * this.pageSize;
-    }
-  },
-  methods: {
-    filter: function (list, value, props) {
-      return list.filter(function (item) {
-        return props.filter(function (prop) {
-          return item[prop] && item[prop].toLowerCase().indexOf(value.toLowerCase()) !== -1;
-        }).length > 0;
-      });
-    }
-  }
+  router: new VueRouter({
+    mode: 'history',
+    routes: [
+      { name: 'home', path: '/', component: Home },
+      { name: 'events', path: '/events', component: Events },
+      { name: 'teams', path: '/teams', component: Teams },
+      { name: 'players', path: '/players', component: Players },
+      { name: 'player', path: '/player/:id', component: Player, props: true }
+    ]
+  })
 });
